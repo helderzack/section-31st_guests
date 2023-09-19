@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Guests</string>
+    <string name="menu_action_all_guests">All Guests</string>
+    <string name="menu_action_present_guests">Present Guests</string>
+    <string name="menu_action_absent_guests">Absent Guests</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="save_button">Save</string>
+    <string name="present_status">Present</string>
+    <string name="absent_status">Absent</string>
+    <string name="confirmation_text">Confirmation</string>
+    <string name="guest_name_text">Name</string>
+    <string name="register_activity_toolbar_text">Guests</string>
+    <string name="register_guest_button">Register Guest Button</string>
+    <string name="guests_header">Guests Header</string>
+</resources>

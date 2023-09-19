@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Convidados</string>
+    <string name="menu_action_all_guests">Todos os Convidados</string>
+    <string name="menu_action_present_guests">Convidados Presentes</string>
+    <string name="menu_action_absent_guests">Convidados Ausentes</string>
+    <string name="navigation_drawer_open">Abrir Navigation Drawer</string>
+    <string name="navigation_drawer_close">Fechar Navigation Drawer</string>
+    <string name="save_button">Salvar</string>
+    <string name="present_status">Presente</string>
+    <string name="absent_status">Ausente</string>
+    <string name="confirmation_text">Confirmação</string>
+    <string name="guest_name_text">Nome</string>
+    <string name="register_activity_toolbar_text">Convidados</string>
+    <string name="register_guest_button">Botão de Cadastro de Convidados</string>
+    <string name="guests_header">Convidados Header</string>
+</resources>

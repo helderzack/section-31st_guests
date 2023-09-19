@@ -1,0 +1,94 @@
+package com.helder.section_31_guests.ui.activities
+
+import android.os.Bundle
+import android.view.MenuItem
+import androidx.activity.addCallback
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import com.google.android.material.navigation.NavigationView
+import com.helder.section_31_guests.R
+import com.helder.section_31_guests.databinding.ActivityMainBinding
+import com.helder.section_31_guests.ui.fragments.AbsentGuestsFragment
+import com.helder.section_31_guests.ui.fragments.AllGuestsFragment
+import com.helder.section_31_guests.ui.fragments.PresentGuestsFragment
+
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navController: NavController
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        with(binding) {
+            setSupportActionBar(appBarAndFragmentContainerViewLayout.toolbar)
+            val navView = navigationView
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(appBarAndFragmentContainerViewLayout.fragmentContainerView.id) as NavHostFragment
+            drawerLayout = appDrawerLayout
+            navController = navHostFragment.navController
+            appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+
+            val toggle = ActionBarDrawerToggle(
+                this@MainActivity, drawerLayout, appBarAndFragmentContainerViewLayout.toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+            )
+            drawerLayout.addDrawerListener(toggle)
+            toggle.syncState()
+
+            onBackPressedDispatcher.addCallback {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    finish()
+                }
+            }
+
+            if (savedInstanceState == null) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container_view, AllGuestsFragment()).commit()
+                navView.setCheckedItem(R.id.action_all_guests)
+            }
+
+            navView.setNavigationItemSelectedListener(this@MainActivity)
+            setContentView(root)
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_all_guests -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container_view, AllGuestsFragment()).commit()
+            }
+
+            R.id.action_present_guests -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container_view, PresentGuestsFragment()).commit()
+            }
+
+            R.id.action_absent_guests -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container_view, AbsentGuestsFragment()).commit()
+            }
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+
+}

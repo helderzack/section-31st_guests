@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/action_all_guests"
+            android:icon="@drawable/ic_diversity"
+            android:title="@string/menu_action_all_guests" />
+        <item android:id="@+id/action_present_guests"
+            android:icon="@drawable/ic_mood"
+            android:title="@string/menu_action_present_guests" />
+        <item android:id="@+id/action_absent_guests"
+            android:icon="@drawable/ic_mood_bad"
+            android:title="@string/menu_action_absent_guests" />
+    </group>
+</menu>

@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.helder.section_31_guests.data.GuestsMockRepository
 import com.helder.section_31_guests.databinding.FragmentAllGuestsBinding
 import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
+import com.helder.section_31_guests.ui.adapters.GuestsAdapter
 import com.helder.section_31_guests.ui.fragments.viewmodels.AllGuestsViewModel
 
 class AllGuestsFragment : Fragment() {
@@ -25,8 +27,8 @@ class AllGuestsFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[AllGuestsViewModel::class.java]
 
         with(binding) {
-
-            textViewGuestName.text = GuestsMockRepository.getInstance().getAllGuests().first().name
+            recyclerViewAllGuests.layoutManager = LinearLayoutManager(requireContext())
+            recyclerViewAllGuests.adapter = GuestsAdapter(viewModel.getAllGuests())
 
             floatingButtonAddGuest.setOnClickListener {
                 startActivity(Intent(requireContext(), RegisterGuestActivity::class.java))

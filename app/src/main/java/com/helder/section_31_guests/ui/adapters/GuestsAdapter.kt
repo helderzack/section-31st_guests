@@ -10,7 +10,7 @@ import com.helder.section_31_guests.data.model.Guest
 
 class GuestsAdapter(private val guests: List<Guest>) :
     RecyclerView.Adapter<GuestsAdapter.GuestsViewHolder>() {
-    
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuestsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.guest_item, parent, false)
         return GuestsViewHolder(view)

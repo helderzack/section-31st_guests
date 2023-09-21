@@ -5,18 +5,19 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.helder.section_31_guests.R
-import com.helder.section_31_guests.data.GuestsMockRepository
+import com.helder.section_31_guests.data.database.GuestLocalRepository
 import com.helder.section_31_guests.data.model.Guest
 import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.ActivityRegisterGuestBinding
 
 class RegisterGuestActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterGuestBinding
+    private lateinit var guestLocalRepository: GuestLocalRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterGuestBinding.inflate(layoutInflater)
-
+        guestLocalRepository = GuestLocalRepository(applicationContext)
         with(binding) {
             setContentView(root)
             setSupportActionBar(toolbar)
@@ -54,7 +55,7 @@ class RegisterGuestActivity : AppCompatActivity() {
             GuestStatus.Absent
         }
 
-        GuestsMockRepository.getInstance().addGuest(Guest(guestName, guestStatus))
+        guestLocalRepository.save(Guest(guestName, guestStatus))
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }

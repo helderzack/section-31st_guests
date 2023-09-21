@@ -14,4 +14,6 @@
     <string name="register_activity_toolbar_text">Convidados</string>
     <string name="register_guest_button">Botão de Cadastro de Convidados</string>
     <string name="guests_header">Convidados Header</string>
+    <string name="failed_saved_guest_action">O convidado não foi registrado no banco de dados!</string>
+    <string name="successful_saved_guest_action">Convidado registrado com sucesso!</string>
 </resources>

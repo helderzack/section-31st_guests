@@ -16,4 +16,5 @@
     <string name="failed_saved_guest_action">The guest was not saved to the database!</string>
     <string name="successful_saved_guest_action">Saved guest successfully!</string>
     <string name="delete_guest_button">Delete Guest Button</string>
+    <string name="constant_guest_status_filter">GUEST_STATUS_FILTER</string>
 </resources>

@@ -9,6 +9,7 @@ import com.helder.section_31_guests.data.database.GuestLocalRepository
 import com.helder.section_31_guests.data.model.Guest
 import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.ActivityRegisterGuestBinding
+import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
 
 class RegisterGuestActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterGuestBinding
@@ -55,7 +56,7 @@ class RegisterGuestActivity : AppCompatActivity() {
             GuestStatus.Absent
         }
 
-        guestLocalRepository.save(Guest(guestName, guestStatus))
+        GuestsViewModel.getInstance(null).saveGuest(Guest(guestName, guestStatus))
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }

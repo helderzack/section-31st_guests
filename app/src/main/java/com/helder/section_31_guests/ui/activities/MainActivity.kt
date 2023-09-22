@@ -13,10 +13,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.google.android.material.navigation.NavigationView
 import com.helder.section_31_guests.R
+import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.ActivityMainBinding
-import com.helder.section_31_guests.ui.fragments.AbsentGuestsFragment
-import com.helder.section_31_guests.ui.fragments.AllGuestsFragment
-import com.helder.section_31_guests.ui.fragments.PresentGuestsFragment
+import com.helder.section_31_guests.ui.fragments.GuestsFragment
+import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityMainBinding
@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             setSupportActionBar(appBarAndFragmentContainerViewLayout.toolbar)
             val navView = navigationView
             val navHostFragment =
-                supportFragmentManager.findFragmentById(appBarAndFragmentContainerViewLayout.fragmentContainerView.id) as NavHostFragment
+                supportFragmentManager
+                    .findFragmentById(appBarAndFragmentContainerViewLayout.fragmentContainerView.id) as NavHostFragment
             drawerLayout = appDrawerLayout
             navController = navHostFragment.navController
             appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
@@ -54,8 +55,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             if (savedInstanceState == null) {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_view, AllGuestsFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, GuestsFragment()).commit()
                 navView.setCheckedItem(R.id.action_all_guests)
             }
 
@@ -71,18 +71,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_all_guests -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_view, AllGuestsFragment()).commit()
+                GuestsViewModel.getInstance(null).filterGuests(null)
             }
 
             R.id.action_present_guests -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_view, PresentGuestsFragment()).commit()
+                GuestsViewModel.getInstance(null).filterGuests(GuestStatus.Present)
             }
 
             R.id.action_absent_guests -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_view, AbsentGuestsFragment()).commit()
+                GuestsViewModel.getInstance(null).filterGuests(GuestStatus.Absent)
             }
         }
 

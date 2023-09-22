@@ -10,6 +10,7 @@ import com.helder.section_31_guests.data.model.Guest
 import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.ActivityRegisterGuestBinding
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
+import com.helder.section_31_guests.util.UtilMethods
 
 class RegisterGuestActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterGuestBinding
@@ -19,15 +20,18 @@ class RegisterGuestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterGuestBinding.inflate(layoutInflater)
         guestLocalRepository = GuestLocalRepository(applicationContext)
+
         with(binding) {
-            setContentView(root)
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
             radioButtonStatusPresent.isChecked = true
 
             buttonSaveGuest.setOnClickListener {
                 saveGuest()
             }
+
+            setContentView(root)
         }
     }
 
@@ -56,7 +60,9 @@ class RegisterGuestActivity : AppCompatActivity() {
             GuestStatus.Absent
         }
 
-        GuestsViewModel.getInstance(null).saveGuest(Guest(guestName, guestStatus))
+        val guestId = UtilMethods.getInstance().generateRandomString()
+        GuestsViewModel.getInstance(null).saveGuest(Guest(guestId, guestName, guestStatus))
+
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }

@@ -31,9 +31,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         with(binding) {
             setSupportActionBar(appBarAndFragmentContainerViewLayout.toolbar)
             val navView = navigationView
+
             val navHostFragment =
                 supportFragmentManager
                     .findFragmentById(appBarAndFragmentContainerViewLayout.fragmentContainerView.id) as NavHostFragment
+
             drawerLayout = appDrawerLayout
             navController = navHostFragment.navController
             appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
             )
+
             drawerLayout.addDrawerListener(toggle)
             toggle.syncState()
 
@@ -64,9 +67,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
+    override fun onSupportNavigateUp(): Boolean =
+        navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -84,6 +86,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
+
         return true
     }
 

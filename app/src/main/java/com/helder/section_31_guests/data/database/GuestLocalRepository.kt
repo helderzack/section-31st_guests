@@ -13,6 +13,7 @@ class GuestLocalRepository(private val context: Context) {
 
     fun save(guest: Guest) {
         val values = ContentValues().apply {
+            put(GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_ID, guest.guestId)
             put(GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_NAME, guest.name)
             put(GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_STATUS, guest.guestStatus.toString())
         }
@@ -47,10 +48,11 @@ class GuestLocalRepository(private val context: Context) {
 
         with(cursor) {
             while (moveToNext()) {
+                val guestId = getString(0)
                 val guestName = getString(1)
                 val guestStatus = getString(2)
 
-                val guest = Guest(guestName, GuestStatus.valueOf(guestStatus))
+                val guest = Guest(guestId, guestName, GuestStatus.valueOf(guestStatus))
                 guests.add(guest)
             }
 

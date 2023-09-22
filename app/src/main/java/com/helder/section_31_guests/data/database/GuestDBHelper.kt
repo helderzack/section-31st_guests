@@ -30,7 +30,7 @@ class GuestDBHelper(context: Context) :
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "Guest.db"
         const val TABLE_NAME = "guest"
-        const val COLUMN_NAME_GUEST_ID = BaseColumns._ID
+        const val COLUMN_NAME_GUEST_ID = "guest_id"
         const val COLUMN_NAME_GUEST_NAME = "name"
         const val COLUMN_NAME_GUEST_STATUS = "guest_status"
     }

@@ -16,4 +16,5 @@
     <string name="guests_header">Convidados Header</string>
     <string name="failed_saved_guest_action">O convidado não foi registrado no banco de dados!</string>
     <string name="successful_saved_guest_action">Convidado registrado com sucesso!</string>
+    <string name="delete_guest_button">Botão de Remoção de Convidado</string>
 </resources>

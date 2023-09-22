@@ -4,7 +4,7 @@ This repository was made as my solution to the exercise proposed in the 31st sec
 the [App Development Using Kotlin - Desenvolvimento de Aplicativos Android Usando Kotlin in portuguese](https://www.udemy.com/course/curso-desenvolvedor-kotlin/)
 course. The way I have approached the development of this app is simple: first I've tried to code
 the app as close as possible to the result intended by the teacher. Then, I'll check the section to
-see how the teacher tackled the development of this app. This is the second exercise from this
+see how the teacher tackled the development of this app. This is the third exercise from this
 course that I have pushed to GitHub.
 
 ## Design Preview

@@ -1,12 +1,15 @@
 package com.helder.section_31_guests.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.helder.section_31_guests.R
 import com.helder.section_31_guests.data.model.Guest
+import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
 
 class GuestsAdapter(private val guests: List<Guest>) :
     RecyclerView.Adapter<GuestsAdapter.GuestsViewHolder>() {
@@ -19,14 +22,26 @@ class GuestsAdapter(private val guests: List<Guest>) :
     override fun getItemCount(): Int = guests.size
 
     override fun onBindViewHolder(holder: GuestsViewHolder, position: Int) {
-        holder.bind(guests[position])
+        val guest = guests[position]
+
+        holder.bind(guest)
+
+        holder.guestName.setOnClickListener {
+            Log.d("onBindViewHolder()", "${guest.name} clicked!!!")
+        }
+
+        holder.imageDeleteGuest.setOnClickListener {
+            GuestsViewModel.getInstance(null).deleteGuest(guest.guestId)
+        }
     }
 
     class GuestsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val guestName: TextView
+        val guestName: TextView
+        val imageDeleteGuest: ImageView
 
         init {
             guestName = view.findViewById(R.id.text_view_guest_name)
+            imageDeleteGuest = view.findViewById(R.id.image_delete_guest)
         }
 
         fun bind(guest: Guest) {

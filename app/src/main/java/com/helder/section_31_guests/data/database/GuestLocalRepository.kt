@@ -62,4 +62,27 @@ class GuestLocalRepository(private val context: Context) {
         return guests
 
     }
+
+    fun delete(guestId: String) {
+        val deletedRows = db.delete(
+            GuestDBHelper.GuestEntry.TABLE_NAME,
+            "${GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_ID} LIKE ?",
+            arrayOf(guestId)
+        )
+
+        if (deletedRows < 1) {
+            Toast.makeText(
+                context,
+                context.getString(R.string.failed_delete_action_no_row_deleted), Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        if (deletedRows > 1) {
+            Toast.makeText(
+                context,
+                context.getString(R.string.failed_delete_action_more_than_one_row_deleted),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 }

@@ -21,9 +21,9 @@ class GuestLocalRepository(private val context: Context) {
         val queryResult = db.insert(GuestDBHelper.GuestEntry.TABLE_NAME, null, values)
 
         if (queryResult.toInt() == -1) {
-            checkRowsAffected(context.getString(R.string.failed_saved_guest_action))
+            showToast(context.getString(R.string.failed_saved_guest_action))
         } else {
-           checkRowsAffected(context.getString(R.string.successful_saved_guest_action))
+           showToast(context.getString(R.string.successful_saved_guest_action))
         }
     }
 
@@ -64,11 +64,11 @@ class GuestLocalRepository(private val context: Context) {
         )
 
         if (deletedRows < 1) {
-            checkRowsAffected(context.getString(R.string.failed_delete_action_no_row_deleted))
+            showToast(context.getString(R.string.failed_delete_action_no_row_deleted))
         }
 
         if (deletedRows > 1) {
-            checkRowsAffected(context.getString(R.string.failed_delete_action_more_than_one_row_deleted))
+            showToast(context.getString(R.string.failed_delete_action_more_than_one_row_deleted))
         }
     }
 
@@ -86,15 +86,15 @@ class GuestLocalRepository(private val context: Context) {
         )
 
         if (updatedRows < 1) {
-            checkRowsAffected(context.getString(R.string.failed_delete_action_no_row_updated))
+            showToast(context.getString(R.string.failed_delete_action_no_row_updated))
         }
 
         if (updatedRows > 1) {
-            checkRowsAffected(context.getString(R.string.failed_delete_action_more_than_one_row_updated))
+            showToast(context.getString(R.string.failed_delete_action_more_than_one_row_updated))
         }
     }
 
-    private fun checkRowsAffected(toastMessages: String) {
+    private fun showToast(toastMessages: String) {
         Toast.makeText(
             context,
             toastMessages,

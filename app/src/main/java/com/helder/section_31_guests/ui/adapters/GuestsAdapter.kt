@@ -1,17 +1,26 @@
 package com.helder.section_31_guests.ui.adapters
 
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.recyclerview.widget.RecyclerView
 import com.helder.section_31_guests.R
 import com.helder.section_31_guests.data.model.Guest
+import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
+import com.helder.section_31_guests.util.UtilMethods
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
-class GuestsAdapter(private val guests: List<Guest>) :
+class GuestsAdapter(private val guests: List<Guest>, private val context: Context) :
     RecyclerView.Adapter<GuestsAdapter.GuestsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuestsViewHolder {
@@ -27,7 +36,11 @@ class GuestsAdapter(private val guests: List<Guest>) :
         holder.bind(guest)
 
         holder.guestName.setOnClickListener {
-            Log.d("onBindViewHolder()", "${guest.name} clicked!!!")
+            val bundle = Bundle()
+            bundle.putParcelable(UtilMethods.getInstance().getGuestExtra(), guest)
+            val intent = Intent(context, RegisterGuestActivity::class.java)
+            intent.putExtras(bundle)
+            context.startActivity(intent)
         }
 
         holder.imageDeleteGuest.setOnClickListener {

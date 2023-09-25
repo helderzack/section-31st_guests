@@ -1,6 +1,7 @@
 package com.helder.section_31_guests.ui.activities
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +26,29 @@ class RegisterGuestActivity : AppCompatActivity() {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-            radioButtonStatusPresent.isChecked = true
+            val sentBundle = intent.extras
+            var outdatedGuest: Guest? = null
+            if (sentBundle != null) {
+                outdatedGuest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    sentBundle.getParcelable(
+                        UtilMethods.getInstance().getGuestExtra(),
+                        Guest::class.java
+                    )
+                } else {
+                    sentBundle.getParcelable(UtilMethods.getInstance().getGuestExtra())
+                }
+            }
+
+            if (outdatedGuest != null) {
+                editGuestName.setText(outdatedGuest.name)
+                if (outdatedGuest.guestStatus == GuestStatus.Present) {
+                    radioButtonStatusPresent.isChecked = true
+                } else {
+                    radioButtonStatusAbsent.isChecked = true
+                }
+            } else {
+                radioButtonStatusPresent.isChecked = true
+            }
 
             buttonSaveGuest.setOnClickListener {
                 saveGuest()
@@ -43,6 +66,7 @@ class RegisterGuestActivity : AppCompatActivity() {
 
     private fun saveGuest() {
         val guestName = binding.editGuestName.text.toString()
+
         if (guestName.isBlank() || guestName.isEmpty()) {
             Toast.makeText(
                 applicationContext,
@@ -60,8 +84,28 @@ class RegisterGuestActivity : AppCompatActivity() {
             GuestStatus.Absent
         }
 
-        val guestId = UtilMethods.getInstance().generateRandomString()
-        GuestsViewModel.getInstance(null).saveGuest(Guest(guestId, guestName, guestStatus))
+        val sentBundle = intent.extras
+        var outdatedGuest: Guest? = null
+
+        if (sentBundle != null) {
+            outdatedGuest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                sentBundle.getParcelable(
+                    UtilMethods.getInstance().getGuestExtra(),
+                    Guest::class.java
+                )
+            } else {
+                sentBundle.getParcelable(UtilMethods.getInstance().getGuestExtra())
+            }
+        }
+
+        if (outdatedGuest == null) {
+            val guestId = UtilMethods.getInstance().generateRandomString()
+            GuestsViewModel.getInstance(null)
+                .saveGuest(Guest(guestId, guestName, guestStatus))
+        } else {
+            GuestsViewModel.getInstance(null)
+                .updateGuest(Guest(outdatedGuest.guestId, guestName, guestStatus))
+        }
 
         startActivity(Intent(this, MainActivity::class.java))
         finish()

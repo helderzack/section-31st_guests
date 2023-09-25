@@ -20,7 +20,10 @@ class UtilMethods private constructor() {
             .joinToString("")
     }
 
+    fun getGuestExtra(): String = UtilConstants.GUEST_EXTRA
+
     private object UtilConstants {
         const val RANDOM_STRING_LENGTH = 15
+        const val GUEST_EXTRA = "GUEST"
     }
 }

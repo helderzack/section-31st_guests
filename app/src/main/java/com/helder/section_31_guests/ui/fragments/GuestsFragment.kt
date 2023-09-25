@@ -34,7 +34,7 @@ class GuestsFragment : Fragment() {
             viewModel =
                 ViewModelProvider(requireActivity(), viewModelFactory)[GuestsViewModel::class.java]
             viewModel.getObservable().observe(viewLifecycleOwner) {
-                recyclerViewAllGuests.adapter = GuestsAdapter(it)
+                recyclerViewAllGuests.adapter = GuestsAdapter(it, requireContext())
             }
 
             floatingButtonAddGuest.setOnClickListener {

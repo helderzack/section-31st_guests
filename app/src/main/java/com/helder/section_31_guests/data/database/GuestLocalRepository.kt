@@ -85,4 +85,37 @@ class GuestLocalRepository(private val context: Context) {
             ).show()
         }
     }
+
+//    private fun checkRowsAffected(rowsAffected: Int, toastMessages: String) {
+//
+//    }
+
+    fun update(guest: Guest) {
+        val values = ContentValues().apply {
+            put(GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_NAME, guest.name)
+            put(GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_STATUS, guest.guestStatus.toString())
+        }
+
+        val updatedRows = db.update(
+            GuestDBHelper.GuestEntry.TABLE_NAME,
+            values,
+            "${GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_ID} LIKE ?",
+            arrayOf(guest.guestId)
+        )
+
+        if (updatedRows < 1) {
+            Toast.makeText(
+                context,
+                context.getString(R.string.failed_delete_action_no_row_updated), Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        if (updatedRows > 1) {
+            Toast.makeText(
+                context,
+                context.getString(R.string.failed_delete_action_more_than_one_row_updated),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 }

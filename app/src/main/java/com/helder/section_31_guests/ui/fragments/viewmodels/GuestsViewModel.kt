@@ -51,4 +51,9 @@ class GuestsViewModel private constructor(private val guestLocalRepository: Gues
         guests = guestLocalRepository.getGuests()
         observableGuests.postValue(guests)
     }
+
+    fun updateGuest(guest: Guest) {
+        guestLocalRepository.update(guest)
+        guests = guestLocalRepository.getGuests()
+    }
 }

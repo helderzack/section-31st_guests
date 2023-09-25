@@ -17,6 +17,8 @@
     <string name="successful_saved_guest_action">Saved guest successfully!</string>
     <string name="delete_guest_action">Delete Guest Action</string>
     <string name="constant_guest_status_filter">GUEST_STATUS_FILTER</string>
-    <string name="failed_delete_action_no_row_deleted">No rows were deleted!!!</string>
-    <string name="failed_delete_action_more_than_one_row_deleted">More than one row was deleted!!!</string>
+    <string name="failed_delete_action_no_row_deleted">No rows were deleted!</string>
+    <string name="failed_delete_action_more_than_one_row_deleted">More than one row was deleted!</string>
+    <string name="failed_delete_action_no_row_updated">No rows were updated!</string>
+    <string name="failed_delete_action_more_than_one_row_updated">More than one row was updated!</string>
 </resources>

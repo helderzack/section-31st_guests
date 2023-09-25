@@ -1,24 +1,20 @@
 package com.helder.section_31_guests.ui.adapters
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.recyclerview.widget.RecyclerView
 import com.helder.section_31_guests.R
 import com.helder.section_31_guests.data.model.Guest
 import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
 import com.helder.section_31_guests.util.UtilMethods
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.coroutineContext
 
 class GuestsAdapter(private val guests: List<Guest>, private val context: Context) :
     RecyclerView.Adapter<GuestsAdapter.GuestsViewHolder>() {
@@ -44,7 +40,19 @@ class GuestsAdapter(private val guests: List<Guest>, private val context: Contex
         }
 
         holder.imageDeleteGuest.setOnClickListener {
-            GuestsViewModel.getInstance(null).deleteGuest(guest.guestId)
+            val builder = AlertDialog.Builder(context)
+
+            builder.setMessage(context.getString(R.string.remove_guest_dialog_title))
+                .setPositiveButton(
+                    context.getString(R.string.positive_remove_guest_dialog_response)
+                ) { _, _ ->
+                    GuestsViewModel.getInstance(null).deleteGuest(guest.guestId)
+                }
+                .setNegativeButton(context.getString(R.string.negative_remove_guest_dialog_response)) { _, _ -> }
+                .setCancelable(false)
+
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 

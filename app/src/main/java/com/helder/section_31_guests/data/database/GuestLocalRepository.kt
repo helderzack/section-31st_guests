@@ -21,15 +21,9 @@ class GuestLocalRepository(private val context: Context) {
         val queryResult = db.insert(GuestDBHelper.GuestEntry.TABLE_NAME, null, values)
 
         if (queryResult.toInt() == -1) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.failed_saved_guest_action), Toast.LENGTH_SHORT
-            ).show()
+            checkRowsAffected(context.getString(R.string.failed_saved_guest_action))
         } else {
-            Toast.makeText(
-                context,
-                context.getString(R.string.successful_saved_guest_action), Toast.LENGTH_SHORT
-            ).show()
+           checkRowsAffected(context.getString(R.string.successful_saved_guest_action))
         }
     }
 
@@ -60,7 +54,6 @@ class GuestLocalRepository(private val context: Context) {
         }
 
         return guests
-
     }
 
     fun delete(guestId: String) {
@@ -71,24 +64,13 @@ class GuestLocalRepository(private val context: Context) {
         )
 
         if (deletedRows < 1) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.failed_delete_action_no_row_deleted), Toast.LENGTH_SHORT
-            ).show()
+            checkRowsAffected(context.getString(R.string.failed_delete_action_no_row_deleted))
         }
 
         if (deletedRows > 1) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.failed_delete_action_more_than_one_row_deleted),
-                Toast.LENGTH_SHORT
-            ).show()
+            checkRowsAffected(context.getString(R.string.failed_delete_action_more_than_one_row_deleted))
         }
     }
-
-//    private fun checkRowsAffected(rowsAffected: Int, toastMessages: String) {
-//
-//    }
 
     fun update(guest: Guest) {
         val values = ContentValues().apply {
@@ -104,18 +86,19 @@ class GuestLocalRepository(private val context: Context) {
         )
 
         if (updatedRows < 1) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.failed_delete_action_no_row_updated), Toast.LENGTH_SHORT
-            ).show()
+            checkRowsAffected(context.getString(R.string.failed_delete_action_no_row_updated))
         }
 
         if (updatedRows > 1) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.failed_delete_action_more_than_one_row_updated),
-                Toast.LENGTH_SHORT
-            ).show()
+            checkRowsAffected(context.getString(R.string.failed_delete_action_more_than_one_row_updated))
         }
+    }
+
+    private fun checkRowsAffected(toastMessages: String) {
+        Toast.makeText(
+            context,
+            toastMessages,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

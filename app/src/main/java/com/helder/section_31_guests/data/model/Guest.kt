@@ -11,8 +11,7 @@ data class Guest(
         parcel.readString()!!,
         parcel.readString()!!,
         GuestStatus.valueOf(parcel.readString()!!)
-    ) {
-    }
+    )
 
     companion object CREATOR : Parcelable.Creator<Guest> {
         override fun createFromParcel(parcel: Parcel): Guest {
@@ -24,9 +23,7 @@ data class Guest(
         }
     }
 
-    override fun describeContents(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun describeContents(): Int = 0
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(guestId)

@@ -34,6 +34,11 @@ class GuestsFragment : Fragment() {
             viewModel =
                 ViewModelProvider(requireActivity(), viewModelFactory)[GuestsViewModel::class.java]
             viewModel.getObservable().observe(viewLifecycleOwner) {
+                if (it.isEmpty()) {
+                    textEmptyGuestsList.visibility = View.VISIBLE
+                } else {
+                    textEmptyGuestsList.visibility = View.INVISIBLE
+                }
                 recyclerViewAllGuests.adapter = GuestsAdapter(it, requireContext())
             }
 

@@ -65,13 +65,9 @@ class GuestLocalRepository(private val context: Context) {
 
         if (deletedRows < 1) {
             showToast(context.getString(R.string.failed_delete_action_no_row_deleted))
-        }
-
-        if (deletedRows > 1) {
+        } else if(deletedRows > 1) {
             showToast(context.getString(R.string.failed_delete_action_more_than_one_row_deleted))
-        }
-        
-        if(deletedRows == 1) {
+        } else {
             showToast(context.getString(R.string.successful_delete_action))
         }
     }

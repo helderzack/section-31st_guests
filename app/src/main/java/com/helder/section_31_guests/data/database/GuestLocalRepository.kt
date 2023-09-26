@@ -70,6 +70,10 @@ class GuestLocalRepository(private val context: Context) {
         if (deletedRows > 1) {
             showToast(context.getString(R.string.failed_delete_action_more_than_one_row_deleted))
         }
+        
+        if(deletedRows == 1) {
+            showToast(context.getString(R.string.successful_delete_action))
+        }
     }
 
     fun update(guest: Guest) {
@@ -86,11 +90,11 @@ class GuestLocalRepository(private val context: Context) {
         )
 
         if (updatedRows < 1) {
-            showToast(context.getString(R.string.failed_delete_action_no_row_updated))
-        }
-
-        if (updatedRows > 1) {
-            showToast(context.getString(R.string.failed_delete_action_more_than_one_row_updated))
+            showToast(context.getString(R.string.failed_update_action_no_row_updated))
+        } else if(updatedRows > 1) {
+            showToast(context.getString(R.string.failed_update_action_more_than_one_row_updated))
+        } else {
+            showToast(context.getString(R.string.successful_update_action))
         }
     }
 

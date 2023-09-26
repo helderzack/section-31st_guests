@@ -8,6 +8,42 @@ possible to the result intended by the teacher. Then, I'll check the section to 
 tackled the development of this app. This is the third exercise from this course that I have pushed
 to GitHub.
 
+## Table of contents
+
+- [Overview](#overview)
+    - [The challenge](#the-challenge)
+    - [What I learned](#what-i-learned)
+- [Design Preview](#design-preview)
+    - [Light Theme](#light-theme)
+    - [Dark Theme](#dark-theme)
+- [Link to previous lesson from the course](#link-to-previous-lesson-from-the-course)
+
+## Overview
+
+### The challenge
+
+Users should be able to:
+- Enter guest name
+- Enter guest category
+- See form validation message if:
+    - The guest name field is empty
+- See all registered guests
+- See guests by category
+- Update guest information
+- Add a guest
+- Remove a guest
+- See dialog to confirm removal of a guest
+
+### What I learned
+
+Some of the things I have learned to do while coding this app were:
+- Utilize a view model to manipulate data which will be shown in fragment
+- Use a SQLite database
+- Build a Navigation Drawer from scratch
+- Pass data from an adapter to an activity
+- Use radio buttons, and receive their values in an activity
+- Show a dialog when clicking a button
+
 ## Design Preview
 
 ### Light Theme

@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navController: NavController
+    private lateinit var navView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         with(binding) {
             setSupportActionBar(appBarAndFragmentContainerViewLayout.toolbar)
-            val navView = navigationView
+            navView = navigationView
 
             val navHostFragment =
                 supportFragmentManager
@@ -59,12 +60,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             if (savedInstanceState == null) {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, GuestsFragment()).commit()
-                navView.setCheckedItem(R.id.action_all_guests)
             }
 
             navView.setNavigationItemSelectedListener(this@MainActivity)
             setContentView(root)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        navView.setCheckedItem(R.id.action_all_guests)
     }
 
     override fun onSupportNavigateUp(): Boolean =

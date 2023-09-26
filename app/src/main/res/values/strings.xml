@@ -24,4 +24,5 @@
     <string name="remove_guest_dialog_title">Do you really want to remove this guest?</string>
     <string name="positive_remove_guest_dialog_response">Yes</string>
     <string name="negative_remove_guest_dialog_response">No</string>
+    <string name="blank_guest_name_alert">Please enter the guest name!</string>
 </resources>

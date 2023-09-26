@@ -70,7 +70,7 @@ class RegisterGuestActivity : AppCompatActivity() {
         if (guestName.isBlank() || guestName.isEmpty()) {
             Toast.makeText(
                 applicationContext,
-                "Please enter the guest name!",
+                getString(R.string.blank_guest_name_alert),
                 Toast.LENGTH_SHORT
             ).show()
             return

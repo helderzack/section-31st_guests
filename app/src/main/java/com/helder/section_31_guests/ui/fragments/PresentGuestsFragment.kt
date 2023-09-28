@@ -2,6 +2,7 @@ package com.helder.section_31_guests.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +10,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.helder.section_31_guests.data.database.GuestLocalRepository
-import com.helder.section_31_guests.databinding.FragmentGuestsBinding
+import com.helder.section_31_guests.data.model.Guest
+import com.helder.section_31_guests.data.model.GuestStatus
+import com.helder.section_31_guests.databinding.FragmentPresentGuestsBinding
 import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.adapters.GuestsAdapter
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModelFactory
+import com.helder.section_31_guests.util.UtilMethods
 
-class GuestsFragment : Fragment() {
-    private lateinit var binding: FragmentGuestsBinding
+class PresentGuestsFragment : Fragment() {
+    private lateinit var binding: FragmentPresentGuestsBinding
     private lateinit var viewModel: GuestsViewModel
     private lateinit var viewModelFactory: GuestsViewModelFactory
 
@@ -25,28 +29,37 @@ class GuestsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentGuestsBinding.inflate(inflater, container, false)
+        binding = FragmentPresentGuestsBinding.inflate(inflater, container, false)
+        Log.d(UtilMethods.getInstance().getLogTag(), "onCreateView() on ${this.javaClass}")
 
         with(binding) {
-            recyclerViewAllGuests.layoutManager = LinearLayoutManager(requireContext())
+            recyclerViewPresentGuests.layoutManager = LinearLayoutManager(requireContext())
 
             viewModelFactory = GuestsViewModelFactory(GuestLocalRepository(requireContext()))
             viewModel =
                 ViewModelProvider(requireActivity(), viewModelFactory)[GuestsViewModel::class.java]
+
             viewModel.getObservable().observe(viewLifecycleOwner) {
-                if (it.isEmpty()) {
-                    textEmptyGuestsList.visibility = View.VISIBLE
+                Log.d(UtilMethods.getInstance().getLogTag(), "getObservable() on ${this.javaClass}")
+
+                recyclerViewPresentGuests.adapter = GuestsAdapter(it.filter { guest: Guest ->
+                    guest.guestStatus == GuestStatus.Present
+                }, requireContext())
+
+                if (it.none { guest: Guest ->
+                        guest.guestStatus == GuestStatus.Present
+                    }) {
+                    textEmptyPresentGuestsList.visibility = View.VISIBLE
                 } else {
-                    textEmptyGuestsList.visibility = View.INVISIBLE
+                    textEmptyPresentGuestsList.visibility = View.INVISIBLE
                 }
-                recyclerViewAllGuests.adapter = GuestsAdapter(it, requireContext())
             }
 
-            floatingButtonAddGuest.setOnClickListener {
+            floatingButtonAddPresentGuest.setOnClickListener {
                 startActivity(Intent(requireContext(), RegisterGuestActivity::class.java))
             }
         }
+
         return binding.root
     }
-
 }

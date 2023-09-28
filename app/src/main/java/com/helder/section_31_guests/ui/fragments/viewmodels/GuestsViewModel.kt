@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.helder.section_31_guests.data.database.GuestLocalRepository
 import com.helder.section_31_guests.data.model.Guest
-import com.helder.section_31_guests.data.model.GuestStatus
 
 class GuestsViewModel private constructor(private val guestLocalRepository: GuestLocalRepository) :
     ViewModel() {
@@ -29,21 +28,10 @@ class GuestsViewModel private constructor(private val guestLocalRepository: Gues
         return observableGuests
     }
 
-    fun filterGuests(guestStatusFilter: GuestStatus?) {
-        if (guestStatusFilter == null) {
-            observableGuests.postValue(guests)
-        } else {
-            observableGuests.postValue(guests.filter { guest -> guest.guestStatus == guestStatusFilter })
-        }
-    }
-
     fun saveGuest(guest: Guest) {
         guestLocalRepository.save(guest)
         guests = guestLocalRepository.getGuests()
-        //I'm not posting a new value to the observable here because this saveGuest function is being called
-        //      only from the RegisterGuestActivity. When the guest is saved, the RegisterGuestActivity starts
-        //      a new MainActivity, which  will initialize the GuestsFragment once again, so the updated guests
-        //      lists is obtained.
+        observableGuests.postValue(guests)
     }
 
     fun deleteGuest(guestId: String) {
@@ -55,5 +43,6 @@ class GuestsViewModel private constructor(private val guestLocalRepository: Gues
     fun updateGuest(guest: Guest) {
         guestLocalRepository.update(guest)
         guests = guestLocalRepository.getGuests()
+        observableGuests.postValue(guests)
     }
 }

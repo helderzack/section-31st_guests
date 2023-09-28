@@ -107,7 +107,7 @@ class RegisterGuestActivity : AppCompatActivity() {
                 .updateGuest(Guest(outdatedGuest.guestId, guestName, guestStatus))
         }
 
-        startActivity(Intent(this, MainActivity::class.java))
+        supportFragmentManager.popBackStack()
         finish()
     }
 }

@@ -13,10 +13,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.google.android.material.navigation.NavigationView
 import com.helder.section_31_guests.R
-import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.ActivityMainBinding
-import com.helder.section_31_guests.ui.fragments.GuestsFragment
-import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
+import com.helder.section_31_guests.ui.fragments.AbsentGuestsFragment
+import com.helder.section_31_guests.ui.fragments.AllGuestsFragment
+import com.helder.section_31_guests.ui.fragments.PresentGuestsFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityMainBinding
@@ -58,18 +58,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
-            if (savedInstanceState == null) {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, GuestsFragment()).commit()
-            }
-
+            navView.setCheckedItem(R.id.action_all_guests)
             navView.setNavigationItemSelectedListener(this@MainActivity)
+
             setContentView(root)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        navView.setCheckedItem(R.id.action_all_guests)
     }
 
     override fun onSupportNavigateUp(): Boolean =
@@ -78,15 +71,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_all_guests -> {
-                GuestsViewModel.getInstance(null).filterGuests(null)
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container_view, AllGuestsFragment())
+                    .addToBackStack(null)
+                    .commit()
             }
 
             R.id.action_present_guests -> {
-                GuestsViewModel.getInstance(null).filterGuests(GuestStatus.Present)
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container_view, PresentGuestsFragment())
+                    .addToBackStack(null)
+                    .commit()
             }
 
             R.id.action_absent_guests -> {
-                GuestsViewModel.getInstance(null).filterGuests(GuestStatus.Absent)
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container_view, AbsentGuestsFragment())
+                    .addToBackStack(null)
+                    .commit()
             }
         }
 

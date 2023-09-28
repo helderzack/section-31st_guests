@@ -16,6 +16,8 @@ import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.adapters.GuestsAdapter
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModelFactory
+import com.helder.section_31_guests.util.CallingFragmentEnum
+import com.helder.section_31_guests.util.UtilMethods
 
 class PresentGuestsFragment : Fragment() {
     private lateinit var binding: FragmentPresentGuestsBinding
@@ -51,7 +53,14 @@ class PresentGuestsFragment : Fragment() {
             }
 
             floatingButtonAddPresentGuest.setOnClickListener {
-                startActivity(Intent(requireContext(), RegisterGuestActivity::class.java))
+                val bundle = Bundle()
+                bundle.putString(
+                    UtilMethods.getInstance().getCallingFragmentExtra(),
+                    CallingFragmentEnum.PRESENT_GUESTS_FRAGMENT.toString()
+                )
+                val intent = Intent(requireContext(), RegisterGuestActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
             }
         }
 

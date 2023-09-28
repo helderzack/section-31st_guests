@@ -1,6 +1,5 @@
 package com.helder.section_31_guests.ui.activities
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -11,6 +10,7 @@ import com.helder.section_31_guests.data.model.Guest
 import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.ActivityRegisterGuestBinding
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
+import com.helder.section_31_guests.util.CallingFragmentEnum
 import com.helder.section_31_guests.util.UtilMethods
 
 class RegisterGuestActivity : AppCompatActivity() {
@@ -28,6 +28,8 @@ class RegisterGuestActivity : AppCompatActivity() {
 
             val sentBundle = intent.extras
             var outdatedGuest: Guest? = null
+            var callingFragment: String? = null
+
             if (sentBundle != null) {
                 outdatedGuest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     sentBundle.getParcelable(
@@ -37,6 +39,9 @@ class RegisterGuestActivity : AppCompatActivity() {
                 } else {
                     sentBundle.getParcelable(UtilMethods.getInstance().getGuestExtra())
                 }
+
+                callingFragment =
+                    sentBundle.getString(UtilMethods.getInstance().getCallingFragmentExtra())
             }
 
             if (outdatedGuest != null) {
@@ -47,7 +52,19 @@ class RegisterGuestActivity : AppCompatActivity() {
                     radioButtonStatusAbsent.isChecked = true
                 }
             } else {
-                radioButtonStatusPresent.isChecked = true
+                when (CallingFragmentEnum.valueOf(callingFragment!!)) {
+                    CallingFragmentEnum.ALL_GUESTS_FRAGMENT -> {
+                        radioButtonStatusPresent.isChecked = true
+                    }
+
+                    CallingFragmentEnum.PRESENT_GUESTS_FRAGMENT -> {
+                        radioButtonStatusPresent.isChecked = true
+                    }
+
+                    CallingFragmentEnum.ABSENT_GUESTS_FRAGMENT -> {
+                        radioButtonStatusAbsent.isChecked = true
+                    }
+                }
             }
 
             buttonSaveGuest.setOnClickListener {
@@ -59,7 +76,7 @@ class RegisterGuestActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        startActivity(Intent(this, MainActivity::class.java))
+        supportFragmentManager.popBackStack()
         finish()
         return super.onSupportNavigateUp()
     }

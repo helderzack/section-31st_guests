@@ -15,6 +15,7 @@ import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.adapters.GuestsAdapter
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModelFactory
+import com.helder.section_31_guests.util.CallingFragmentEnum
 import com.helder.section_31_guests.util.UtilMethods
 
 class AllGuestsFragment : Fragment() {
@@ -28,7 +29,10 @@ class AllGuestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAllGuestsBinding.inflate(inflater, container, false)
-        Log.d(UtilMethods.getInstance().getLogTag(), "onCreateView() on ${this.javaClass.simpleName}")
+        Log.d(
+            UtilMethods.getInstance().getLogTag(),
+            "onCreateView() on ${this.javaClass.simpleName}"
+        )
 
         with(binding) {
             recyclerViewAllGuests.layoutManager = LinearLayoutManager(requireContext())
@@ -38,7 +42,10 @@ class AllGuestsFragment : Fragment() {
                 ViewModelProvider(requireActivity(), viewModelFactory)[GuestsViewModel::class.java]
 
             viewModel.getObservable().observe(viewLifecycleOwner) {
-                Log.d(UtilMethods.getInstance().getLogTag(), "getObservable() on ${this.javaClass.simpleName}")
+                Log.d(
+                    UtilMethods.getInstance().getLogTag(),
+                    "getObservable() on ${this.javaClass.simpleName}"
+                )
 
                 recyclerViewAllGuests.adapter = GuestsAdapter(it, requireContext())
 
@@ -50,7 +57,14 @@ class AllGuestsFragment : Fragment() {
             }
 
             floatingButtonAddGuest.setOnClickListener {
-                startActivity(Intent(requireContext(), RegisterGuestActivity::class.java))
+                val bundle = Bundle()
+                bundle.putString(
+                    UtilMethods.getInstance().getCallingFragmentExtra(),
+                    CallingFragmentEnum.ALL_GUESTS_FRAGMENT.toString()
+                )
+                val intent = Intent(requireContext(), RegisterGuestActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
             }
         }
         return binding.root

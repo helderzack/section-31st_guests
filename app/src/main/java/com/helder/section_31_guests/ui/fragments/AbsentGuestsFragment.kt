@@ -2,7 +2,6 @@ package com.helder.section_31_guests.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.adapters.GuestsAdapter
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModelFactory
-import com.helder.section_31_guests.util.UtilMethods
 
 class AbsentGuestsFragment : Fragment() {
     private lateinit var binding: FragmentAbsentGuestsBinding
@@ -29,7 +27,6 @@ class AbsentGuestsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d(UtilMethods.getInstance().getLogTag(), "onCreateView() on ${this.javaClass}")
         binding = FragmentAbsentGuestsBinding.inflate(inflater, container, false)
 
         with(binding) {
@@ -40,8 +37,6 @@ class AbsentGuestsFragment : Fragment() {
                 ViewModelProvider(requireActivity(), viewModelFactory)[GuestsViewModel::class.java]
 
             viewModel.getObservable().observe(viewLifecycleOwner) {
-                Log.d(UtilMethods.getInstance().getLogTag(), "getObservable() on ${this.javaClass}")
-
                 recyclerViewAbsentGuests.adapter = GuestsAdapter(it.filter { guest: Guest ->
                     guest.guestStatus == GuestStatus.Absent
                 }, requireContext())

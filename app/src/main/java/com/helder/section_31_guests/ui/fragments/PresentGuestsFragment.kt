@@ -2,7 +2,6 @@ package com.helder.section_31_guests.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.adapters.GuestsAdapter
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModel
 import com.helder.section_31_guests.ui.fragments.viewmodels.GuestsViewModelFactory
-import com.helder.section_31_guests.util.UtilMethods
 
 class PresentGuestsFragment : Fragment() {
     private lateinit var binding: FragmentPresentGuestsBinding
@@ -30,7 +28,6 @@ class PresentGuestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPresentGuestsBinding.inflate(inflater, container, false)
-        Log.d(UtilMethods.getInstance().getLogTag(), "onCreateView() on ${this.javaClass}")
 
         with(binding) {
             recyclerViewPresentGuests.layoutManager = LinearLayoutManager(requireContext())
@@ -40,8 +37,6 @@ class PresentGuestsFragment : Fragment() {
                 ViewModelProvider(requireActivity(), viewModelFactory)[GuestsViewModel::class.java]
 
             viewModel.getObservable().observe(viewLifecycleOwner) {
-                Log.d(UtilMethods.getInstance().getLogTag(), "getObservable() on ${this.javaClass}")
-
                 recyclerViewPresentGuests.adapter = GuestsAdapter(it.filter { guest: Guest ->
                     guest.guestStatus == GuestStatus.Present
                 }, requireContext())

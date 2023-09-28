@@ -28,7 +28,7 @@ class AllGuestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAllGuestsBinding.inflate(inflater, container, false)
-        Log.d(UtilMethods.getInstance().getLogTag(), "onCreateView() on ${this.javaClass}")
+        Log.d(UtilMethods.getInstance().getLogTag(), "onCreateView() on ${this.javaClass.simpleName}")
 
         with(binding) {
             recyclerViewAllGuests.layoutManager = LinearLayoutManager(requireContext())
@@ -38,7 +38,7 @@ class AllGuestsFragment : Fragment() {
                 ViewModelProvider(requireActivity(), viewModelFactory)[GuestsViewModel::class.java]
 
             viewModel.getObservable().observe(viewLifecycleOwner) {
-                Log.d(UtilMethods.getInstance().getLogTag(), "getObservable() on ${this.javaClass}")
+                Log.d(UtilMethods.getInstance().getLogTag(), "getObservable() on ${this.javaClass.simpleName}")
 
                 recyclerViewAllGuests.adapter = GuestsAdapter(it, requireContext())
 

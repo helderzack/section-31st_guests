@@ -29,10 +29,6 @@ class AllGuestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAllGuestsBinding.inflate(inflater, container, false)
-        Log.d(
-            UtilMethods.getInstance().getLogTag(),
-            "onCreateView() on ${this.javaClass.simpleName}"
-        )
 
         with(binding) {
             recyclerViewAllGuests.layoutManager = LinearLayoutManager(requireContext())
@@ -66,7 +62,8 @@ class AllGuestsFragment : Fragment() {
                 intent.putExtras(bundle)
                 startActivity(intent)
             }
+
+            return root
         }
-        return binding.root
     }
 }

@@ -62,7 +62,8 @@ class AbsentGuestsFragment : Fragment() {
                 intent.putExtras(bundle)
                 startActivity(intent)
             }
+
+            return root
         }
-        return binding.root
     }
 }

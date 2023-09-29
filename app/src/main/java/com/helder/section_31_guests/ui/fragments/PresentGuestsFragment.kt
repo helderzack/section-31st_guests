@@ -62,8 +62,8 @@ class PresentGuestsFragment : Fragment() {
                 intent.putExtras(bundle)
                 startActivity(intent)
             }
-        }
 
-        return binding.root
+            return root
+        }
     }
 }

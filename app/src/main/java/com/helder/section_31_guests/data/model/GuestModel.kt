@@ -3,22 +3,22 @@ package com.helder.section_31_guests.data.model
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Guest(
-    val guestId: String,
+data class GuestModel(
+    val id: Int,
     var name: String,
     var guestStatus: GuestStatus) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString()!!,
+        parcel.readInt(),
         parcel.readString()!!,
         GuestStatus.valueOf(parcel.readString()!!)
     )
 
-    companion object CREATOR : Parcelable.Creator<Guest> {
-        override fun createFromParcel(parcel: Parcel): Guest {
-            return Guest(parcel)
+    companion object CREATOR : Parcelable.Creator<GuestModel> {
+        override fun createFromParcel(parcel: Parcel): GuestModel {
+            return GuestModel(parcel)
         }
 
-        override fun newArray(size: Int): Array<Guest?> {
+        override fun newArray(size: Int): Array<GuestModel?> {
             return arrayOfNulls(size)
         }
     }
@@ -26,7 +26,7 @@ data class Guest(
     override fun describeContents(): Int = 0
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(guestId)
+        parcel.writeInt(id)
         parcel.writeString(name)
         parcel.writeString(guestStatus.toString())
     }

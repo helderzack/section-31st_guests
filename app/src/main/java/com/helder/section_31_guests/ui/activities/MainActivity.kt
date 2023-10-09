@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+//        applicationContext.deleteDatabase("Guest.db")
 
         with(binding) {
             setSupportActionBar(appBarAndFragmentContainerViewLayout.toolbar)
@@ -99,6 +100,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         return true
     }
-
-
 }

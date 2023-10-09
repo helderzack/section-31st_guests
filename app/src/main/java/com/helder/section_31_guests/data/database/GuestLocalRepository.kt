@@ -1,40 +1,53 @@
 package com.helder.section_31_guests.data.database
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
-import android.widget.Toast
-import com.helder.section_31_guests.R
-import com.helder.section_31_guests.data.model.Guest
+import com.helder.section_31_guests.data.model.GuestModel
 import com.helder.section_31_guests.data.model.GuestStatus
 
-class GuestLocalRepository(private val context: Context) {
+class GuestLocalRepository private constructor(context: Context) {
     private val dbHelper = GuestDBHelper(context)
     private val db = dbHelper.writableDatabase
 
-    fun save(guest: Guest) {
-        val values = ContentValues().apply {
-            put(GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_ID, guest.guestId)
-            put(GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_NAME, guest.name)
-            put(GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_STATUS, guest.guestStatus.toString())
-        }
+    companion object {
+        private lateinit var repository: GuestLocalRepository
 
-        val queryResult = db.insert(GuestDBHelper.GuestEntry.TABLE_NAME, null, values)
+        fun getInstance(context: Context): GuestLocalRepository {
+            if (!::repository.isInitialized) {
+                repository = GuestLocalRepository(context)
+            }
 
-        if (queryResult.toInt() == -1) {
-            showToast(context.getString(R.string.failed_saved_guest_action))
-        } else {
-           showToast(context.getString(R.string.successful_saved_guest_action))
+            return repository
         }
     }
 
-    fun getGuests(): List<Guest> {
-        val guests: MutableList<Guest> = mutableListOf()
+    fun insert(guest: GuestModel): Int {
+        val values = ContentValues().apply {
+            put(DatabaseConstants.GUEST.COLUMNS.NAME, guest.name)
+            put(DatabaseConstants.GUEST.COLUMNS.GUEST_STATUS, guest.guestStatus.toString())
+        }
+
+        return db.insert(
+            DatabaseConstants.TABLE_NAME,
+            null,
+            values
+        ).toInt()
+    }
+
+    @SuppressLint("Range")
+    fun getGuests(statusFilter: GuestStatus?): List<GuestModel> {
+        val guests: MutableList<GuestModel> = mutableListOf()
+
+        val selection =
+            if (statusFilter == null) null else "${DatabaseConstants.GUEST.COLUMNS.GUEST_STATUS} = ?"
+        val selectionArgs = if (statusFilter == null) null else arrayOf(statusFilter.toString())
 
         val cursor = db.query(
-            GuestDBHelper.GuestEntry.TABLE_NAME,
+            DatabaseConstants.TABLE_NAME,
             null,
-            null,
-            null,
+            selection,
+            selectionArgs,
             null,
             null,
             null
@@ -42,63 +55,69 @@ class GuestLocalRepository(private val context: Context) {
 
         with(cursor) {
             while (moveToNext()) {
-                val guestId = getString(0)
-                val guestName = getString(1)
-                val guestStatus = getString(2)
-
-                val guest = Guest(guestId, guestName, GuestStatus.valueOf(guestStatus))
-                guests.add(guest)
+                val guestId = getInt(getColumnIndex(DatabaseConstants.GUEST.COLUMNS.ID))
+                val guestName = getString(getColumnIndex(DatabaseConstants.GUEST.COLUMNS.NAME))
+                val guestStatus =
+                    getString(getColumnIndex(DatabaseConstants.GUEST.COLUMNS.GUEST_STATUS))
+                guests.add(GuestModel(guestId, guestName, GuestStatus.valueOf(guestStatus)))
             }
-
-            close()
         }
+
+        cursor.close()
 
         return guests
     }
 
-    fun delete(guestId: String) {
-        val deletedRows = db.delete(
-            GuestDBHelper.GuestEntry.TABLE_NAME,
-            "${GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_ID} LIKE ?",
-            arrayOf(guestId)
+    fun delete(id: Int): Int {
+        return db.delete(
+            DatabaseConstants.TABLE_NAME,
+            "${DatabaseConstants.GUEST.COLUMNS.ID} LIKE ?",
+            arrayOf(id.toString())
         )
-
-        if (deletedRows < 1) {
-            showToast(context.getString(R.string.failed_delete_action_no_row_deleted))
-        } else if(deletedRows > 1) {
-            showToast(context.getString(R.string.failed_delete_action_more_than_one_row_deleted))
-        } else {
-            showToast(context.getString(R.string.successful_delete_action))
-        }
     }
 
-    fun update(guest: Guest) {
+    @SuppressLint("Range")
+    fun getById(id: Int): GuestModel? {
+        val selection = "${DatabaseConstants.GUEST.COLUMNS.ID} LIKE ?"
+        val selectionArgs = arrayOf(id.toString())
+
+        val cursor = db.query(
+            DatabaseConstants.TABLE_NAME,
+            null,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        var guest: GuestModel? = null
+
+        with(cursor) {
+            while(moveToNext()) {
+                guest = GuestModel(
+                    id,
+                    getString(getColumnIndex(DatabaseConstants.GUEST.COLUMNS.NAME)),
+                    GuestStatus.valueOf(getString(getColumnIndex(DatabaseConstants.GUEST.COLUMNS.GUEST_STATUS)))
+                )
+            }
+        }
+
+        cursor.close()
+        return guest
+    }
+
+    fun update(guest: GuestModel): Int {
         val values = ContentValues().apply {
-            put(GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_NAME, guest.name)
-            put(GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_STATUS, guest.guestStatus.toString())
+            put(DatabaseConstants.GUEST.COLUMNS.NAME, guest.name)
+            put(DatabaseConstants.GUEST.COLUMNS.GUEST_STATUS, guest.guestStatus.toString())
         }
 
-        val updatedRows = db.update(
-            GuestDBHelper.GuestEntry.TABLE_NAME,
+        return db.update(
+            DatabaseConstants.TABLE_NAME,
             values,
-            "${GuestDBHelper.GuestEntry.COLUMN_NAME_GUEST_ID} LIKE ?",
-            arrayOf(guest.guestId)
+            "${DatabaseConstants.GUEST.COLUMNS.ID} LIKE ?",
+            arrayOf(guest.id.toString())
         )
-
-        if (updatedRows < 1) {
-            showToast(context.getString(R.string.failed_update_action_no_row_updated))
-        } else if(updatedRows > 1) {
-            showToast(context.getString(R.string.failed_update_action_more_than_one_row_updated))
-        } else {
-            showToast(context.getString(R.string.successful_update_action))
-        }
-    }
-
-    private fun showToast(toastMessages: String) {
-        Toast.makeText(
-            context,
-            toastMessages,
-            Toast.LENGTH_SHORT
-        ).show()
     }
 }

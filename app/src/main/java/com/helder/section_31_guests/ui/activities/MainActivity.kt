@@ -27,11 +27,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-//        applicationContext.deleteDatabase("Guest.db")
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setSupportActionBar(binding.appBarAndFragmentContainerViewLayout.toolbar)
+        setContentView(binding.root)
+        setupNavigation()
+    }
+
+    private fun setupNavigation() {
         with(binding) {
-            setSupportActionBar(appBarAndFragmentContainerViewLayout.toolbar)
             navView = navigationView
 
             val navHostFragment =
@@ -61,8 +65,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             navView.setCheckedItem(R.id.action_all_guests)
             navView.setNavigationItemSelectedListener(this@MainActivity)
-
-            setContentView(root)
         }
     }
 

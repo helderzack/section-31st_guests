@@ -13,14 +13,15 @@ import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.viewmodel.GuestsViewModel
 
 class PresentGuestsFragment : BaseFragment() {
-    private lateinit var binding: FragmentPresentGuestsBinding
+    private var _binding: FragmentPresentGuestsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPresentGuestsBinding.inflate(inflater, container, false)
+        _binding = FragmentPresentGuestsBinding.inflate(inflater, container, false)
         statusFilter = GuestStatus.Present
 
         with(binding) {
@@ -40,6 +41,11 @@ class PresentGuestsFragment : BaseFragment() {
 
             return root
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun observe() {

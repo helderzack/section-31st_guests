@@ -12,14 +12,15 @@ import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.viewmodel.GuestsViewModel
 
 class AllGuestsFragment : BaseFragment() {
-    private lateinit var binding: FragmentAllGuestsBinding
+    private var _binding: FragmentAllGuestsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAllGuestsBinding.inflate(inflater, container, false)
+        _binding = FragmentAllGuestsBinding.inflate(inflater, container, false)
 
         with(binding) {
             recyclerViewAllGuests.layoutManager = LinearLayoutManager(requireContext())
@@ -38,6 +39,11 @@ class AllGuestsFragment : BaseFragment() {
 
             return root
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun observe() {

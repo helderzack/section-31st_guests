@@ -13,14 +13,15 @@ import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.viewmodel.GuestsViewModel
 
 class AbsentGuestsFragment : BaseFragment() {
-    private lateinit var binding: FragmentAbsentGuestsBinding
+    private var _binding: FragmentAbsentGuestsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAbsentGuestsBinding.inflate(inflater, container, false)
+        _binding = FragmentAbsentGuestsBinding.inflate(inflater, container, false)
         statusFilter = GuestStatus.Absent
 
         with(binding) {
@@ -39,6 +40,11 @@ class AbsentGuestsFragment : BaseFragment() {
 
             return root
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun observe() {

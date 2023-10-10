@@ -8,15 +8,15 @@
         android:id="@+id/all_guests_fragment"
         android:name="com.helder.section_31_guests.ui.fragments.AllGuestsFragment"
         android:label="AllGuestsFragment"
-        tools:layout="@layout/fragment_all_guests" />
+        tools:layout="@layout/guests_fragments_layout" />
     <fragment
         android:id="@+id/present_guests_fragment"
         android:name="com.helder.section_31_guests.ui.fragments.PresentGuestsFragment"
         android:label="PresentGuestsFragment"
-        tools:layout="@layout/fragment_present_guests" />
+        tools:layout="@layout/guests_fragments_layout" />
     <fragment
         android:id="@+id/absent_guests_fragment"
         android:name="com.helder.section_31_guests.ui.fragments.AbsentGuestsFragment"
         android:label="AbsentGuestsFragment"
-        tools:layout="@layout/fragment_absent_guests" />
+        tools:layout="@layout/guests_fragments_layout" />
 </navigation>

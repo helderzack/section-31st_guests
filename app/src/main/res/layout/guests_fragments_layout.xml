@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_present_guests"
+        android:id="@+id/recycler_view_all_guests"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -18,7 +18,7 @@
         tools:listitem="@layout/guest_item" />
 
     <TextView
-        android:id="@+id/text_empty_present_guests_list"
+        android:id="@+id/text_empty_guests_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_guests_registered"
@@ -33,12 +33,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_button_add_present_guest"
+        android:id="@+id/floating_button_add_guest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:contentDescription="@string/register_guest_button"
+        android:contentDescription="@string/register_guest_action"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_invite" />

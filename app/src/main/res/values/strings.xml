@@ -11,7 +11,7 @@
     <string name="confirmation_text">Confirmation</string>
     <string name="guest_name_text">Name</string>
     <string name="register_activity_toolbar_text">Guests</string>
-    <string name="register_guest_button">Register Guest Button</string>
+    <string name="register_guest_action">Register Guest Action</string>
     <string name="guests_header">Guests Header</string>
     <string name="failed_saved_guest_action">The guest was not saved to the database!</string>
     <string name="successful_saved_guest_action">Saved guest successfully!</string>

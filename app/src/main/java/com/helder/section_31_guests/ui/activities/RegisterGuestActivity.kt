@@ -1,7 +1,6 @@
 package com.helder.section_31_guests.ui.activities
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.helder.section_31_guests.R
@@ -77,11 +76,7 @@ class RegisterGuestActivity : AppCompatActivity() {
         val guestName = binding.editGuestName.text.toString()
 
         if (guestName.isBlank() || guestName.isEmpty()) {
-            Toast.makeText(
-                applicationContext,
-                getString(R.string.blank_guest_name_alert),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToastService.showToast(this, getString(R.string.blank_guest_name_alert))
             return
         }
 

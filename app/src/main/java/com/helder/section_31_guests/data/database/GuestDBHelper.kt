@@ -3,6 +3,7 @@ package com.helder.section_31_guests.data.database
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.helder.section_31_guests.constants.DatabaseConstants
 
 class GuestDBHelper(context: Context) :
     SQLiteOpenHelper(

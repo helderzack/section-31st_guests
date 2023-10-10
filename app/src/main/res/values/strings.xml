@@ -28,6 +28,4 @@
     <string name="negative_remove_guest_dialog_response">No</string>
     <string name="blank_guest_name_alert">Please enter the guest name!</string>
     <string name="no_guests_registered">There are no guests registered!</string>
-    <string name="guest_extra">GUEST</string>
-    <string name="log_tag">LIFECYCLE_METHOD</string>
 </resources>

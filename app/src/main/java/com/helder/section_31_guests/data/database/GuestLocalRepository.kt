@@ -3,6 +3,7 @@ package com.helder.section_31_guests.data.database
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import com.helder.section_31_guests.constants.DatabaseConstants
 import com.helder.section_31_guests.data.model.GuestModel
 import com.helder.section_31_guests.data.model.GuestStatus
 

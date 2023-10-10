@@ -5,15 +5,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.helder.section_31_guests.R
+import com.helder.section_31_guests.constants.GuestConstants
 import com.helder.section_31_guests.data.model.GuestModel
 import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.ActivityRegisterGuestBinding
+import com.helder.section_31_guests.service.ShowToastService
 import com.helder.section_31_guests.ui.viewmodel.RegisterGuestViewModel
 
 class RegisterGuestActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterGuestBinding
     private lateinit var viewModel: RegisterGuestViewModel
     private var guestId = 0
+    private val showToastService = ShowToastService.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +53,7 @@ class RegisterGuestActivity : AppCompatActivity() {
         val bundle = intent.extras
 
         if (bundle != null) {
-            guestId = bundle.getInt(getString(R.string.guest_extra))
+            guestId = bundle.getInt(GuestConstants.GUEST.ID)
             viewModel.getById(guestId)
         }
     }
@@ -90,7 +93,7 @@ class RegisterGuestActivity : AppCompatActivity() {
             GuestStatus.Absent
         }
 
-        if(guestId == 0) {
+        if (guestId == 0) {
             showInsertMessage(viewModel.save(GuestModel(guestId, guestName, guestStatus)))
         } else {
             showUpdateMessage(viewModel.update(GuestModel(guestId, guestName, guestStatus)))
@@ -102,27 +105,25 @@ class RegisterGuestActivity : AppCompatActivity() {
 
     private fun showInsertMessage(queryResult: Int) {
         if (queryResult == -1) {
-            showToast(getString(R.string.failed_saved_guest_action))
+            showToastService.showToast(this, getString(R.string.failed_saved_guest_action))
         } else {
-            showToast(getString(R.string.successful_saved_guest_action))
+            showToastService.showToast(this, getString(R.string.successful_saved_guest_action))
         }
     }
 
     private fun showUpdateMessage(updatedRows: Int) {
         if (updatedRows < 1) {
-            showToast(getString(R.string.failed_update_action_no_row_updated))
+            showToastService.showToast(
+                this,
+                getString(R.string.failed_update_action_no_row_updated)
+            )
         } else if (updatedRows > 1) {
-            showToast(getString(R.string.failed_update_action_more_than_one_row_updated))
+            showToastService.showToast(
+                this,
+                getString(R.string.failed_update_action_more_than_one_row_updated)
+            )
         } else {
-            showToast(getString(R.string.successful_update_action))
+            showToastService.showToast(this, getString(R.string.successful_update_action))
         }
-    }
-
-    private fun showToast(toastMessage: String) {
-        Toast.makeText(
-            this,
-            toastMessage,
-            Toast.LENGTH_SHORT
-        ).show()
     }
 }

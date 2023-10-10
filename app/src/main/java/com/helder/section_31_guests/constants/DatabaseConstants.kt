@@ -1,4 +1,4 @@
-package com.helder.section_31_guests.data.database
+package com.helder.section_31_guests.constants
 
 class DatabaseConstants {
     companion object GUEST {

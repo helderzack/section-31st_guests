@@ -29,6 +29,4 @@
     <string name="negative_remove_guest_dialog_response">Não</string>
     <string name="blank_guest_name_alert">Preencha o nome do convidado, por favor!</string>
     <string name="no_guests_registered">Não há convidados registrados!</string>
-    <string name="guest_extra">GUEST</string>
-    <string name="log_tag">LIFECYCLE_METHOD</string>
 </resources>

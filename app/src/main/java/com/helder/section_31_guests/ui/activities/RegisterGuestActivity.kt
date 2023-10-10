@@ -118,10 +118,10 @@ class RegisterGuestActivity : AppCompatActivity() {
         }
     }
 
-    private fun showToast(toastMessages: String) {
+    private fun showToast(toastMessage: String) {
         Toast.makeText(
             this,
-            toastMessages,
+            toastMessage,
             Toast.LENGTH_SHORT
         ).show()
     }

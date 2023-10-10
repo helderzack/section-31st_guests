@@ -46,10 +46,10 @@ open class BaseFragment : Fragment() {
         })
     }
 
-    protected fun showToast(toastMessages: String) {
+    protected fun showToast(toastMessage: String) {
         Toast.makeText(
             context,
-            toastMessages,
+            toastMessage,
             Toast.LENGTH_SHORT
         ).show()
     }

@@ -16,13 +16,10 @@
     <string name="failed_saved_guest_action">The guest was not saved to the database!</string>
     <string name="successful_saved_guest_action">Saved guest successfully!</string>
     <string name="delete_guest_action">Delete Guest Action</string>
-    <string name="constant_guest_status_filter">GUEST_STATUS_FILTER</string>
     <string name="successful_delete_action">Guest deleted successfully!</string>
-    <string name="failed_delete_action_no_row_deleted">No guests were deleted!</string>
-    <string name="failed_delete_action_more_than_one_row_deleted">More than one guest was deleted!</string>
+    <string name="failed_delete_action">No guests were deleted!</string>
     <string name="successful_update_action">Guest updated successfully!</string>
-    <string name="failed_update_action_no_row_updated">No guests were updated!</string>
-    <string name="failed_update_action_more_than_one_row_updated">More than one guest was updated!</string>
+    <string name="failed_update_action">The guest info was not updated!</string>
     <string name="remove_guest_dialog_title">Do you really want to remove this guest?</string>
     <string name="positive_remove_guest_dialog_response">Yes</string>
     <string name="negative_remove_guest_dialog_response">No</string>

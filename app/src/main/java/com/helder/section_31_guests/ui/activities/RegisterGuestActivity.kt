@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.helder.section_31_guests.R
 import com.helder.section_31_guests.constants.GuestConstants
-import com.helder.section_31_guests.data.model.GuestModel
+import com.helder.section_31_guests.data.model.Guest
 import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.ActivityRegisterGuestBinding
 import com.helder.section_31_guests.service.ShowToastService
@@ -89,36 +89,25 @@ class RegisterGuestActivity : AppCompatActivity() {
         }
 
         if (guestId == 0) {
-            showInsertMessage(viewModel.save(GuestModel(guestId, guestName, guestStatus)))
+            try {
+                viewModel.save(Guest(guestId, guestName, guestStatus))
+                showToastService.showToast(this, getString(R.string.successful_saved_guest_action))
+            } catch (e: Exception) {
+                showToastService.showToast(this, getString(R.string.failed_saved_guest_action))
+            }
         } else {
-            showUpdateMessage(viewModel.update(GuestModel(guestId, guestName, guestStatus)))
+            try {
+                viewModel.update(Guest(guestId, guestName, guestStatus))
+                showToastService.showToast(this, getString(R.string.successful_update_action))
+            } catch (e: Exception) {
+                showToastService.showToast(
+                    this,
+                    getString(R.string.failed_update_action)
+                )
+            }
         }
 
         supportFragmentManager.popBackStack()
         finish()
-    }
-
-    private fun showInsertMessage(queryResult: Int) {
-        if (queryResult == -1) {
-            showToastService.showToast(this, getString(R.string.failed_saved_guest_action))
-        } else {
-            showToastService.showToast(this, getString(R.string.successful_saved_guest_action))
-        }
-    }
-
-    private fun showUpdateMessage(updatedRows: Int) {
-        if (updatedRows < 1) {
-            showToastService.showToast(
-                this,
-                getString(R.string.failed_update_action_no_row_updated)
-            )
-        } else if (updatedRows > 1) {
-            showToastService.showToast(
-                this,
-                getString(R.string.failed_update_action_more_than_one_row_updated)
-            )
-        } else {
-            showToastService.showToast(this, getString(R.string.successful_update_action))
-        }
     }
 }

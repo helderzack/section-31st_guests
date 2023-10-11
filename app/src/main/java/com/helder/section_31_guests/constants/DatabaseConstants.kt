@@ -9,7 +9,7 @@ class DatabaseConstants {
         object COLUMNS {
             const val ID = "id"
             const val NAME = "name"
-            const val GUEST_STATUS = "guest_status"
+            const val GUEST_STATUS = "guestStatus"
         }
     }
 }

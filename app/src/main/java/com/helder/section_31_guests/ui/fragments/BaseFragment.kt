@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.helder.section_31_guests.R
 import com.helder.section_31_guests.constants.GuestConstants
+import com.helder.section_31_guests.data.model.Guest
 import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.GuestsFragmentsLayoutBinding
 import com.helder.section_31_guests.service.ShowToastService
@@ -62,7 +63,7 @@ open class BaseFragment : Fragment() {
         _binding = null
     }
 
-    protected fun attachListenerToAdapter() {
+    private fun attachListenerToAdapter() {
         adapter.attachListener(object : OnGuestListener {
             override fun onUpdate(id: Int) {
                 val bundle = Bundle()
@@ -72,26 +73,15 @@ open class BaseFragment : Fragment() {
                 startActivity(intent)
             }
 
-            override fun onDelete(id: Int) {
-                val deletedRows = viewModel.deleteGuest(id)
-
-                if (deletedRows < 1) {
-                    showToastService.showToast(
-                        requireContext(),
-                        getString(R.string.failed_delete_action_no_row_deleted)
-                    )
-                } else if (deletedRows > 1) {
-                    showToastService.showToast(
-                        requireContext(),
-                        getString(R.string.failed_delete_action_more_than_one_row_deleted)
-                    )
-                } else {
-                    showToastService.showToast(
-                        requireContext(),
-                        getString(R.string.successful_delete_action)
-                    )
-                    viewModel.getAll(statusFilter)
+            override fun onDelete(guest: Guest) {
+                try {
+                    viewModel.deleteGuest(guest)
+                    showToastService.showToast(requireContext(), getString(R.string.successful_delete_action))
+                } catch(e: Exception) {
+                    showToastService.showToast(requireContext(), getString(R.string.failed_delete_action))
                 }
+
+                viewModel.getAll(statusFilter)
             }
         })
     }

@@ -3,14 +3,14 @@ package com.helder.section_31_guests.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.helder.section_31_guests.data.model.GuestModel
+import com.helder.section_31_guests.data.model.Guest
 import com.helder.section_31_guests.databinding.GuestItemBinding
 import com.helder.section_31_guests.ui.listener.OnGuestListener
 
 class GuestsAdapter :
     RecyclerView.Adapter<GuestViewHolder>() {
     private lateinit var binding: GuestItemBinding
-    private var guests: List<GuestModel> = listOf()
+    private var guests: List<Guest> = listOf()
     private lateinit var listener: OnGuestListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuestViewHolder {
@@ -25,7 +25,7 @@ class GuestsAdapter :
         holder.bind(guest)
     }
 
-    fun updateGuests(guests: List<GuestModel>) {
+    fun updateGuests(guests: List<Guest>) {
         this.guests = guests
         notifyDataSetChanged()
     }

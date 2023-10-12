@@ -7,7 +7,6 @@ import androidx.room.Query
 import androidx.room.Update
 import com.helder.section_31_guests.constants.DatabaseConstants
 import com.helder.section_31_guests.data.model.Guest
-import com.helder.section_31_guests.data.model.GuestStatus
 
 @Dao
 interface GuestDAO {
@@ -19,13 +18,14 @@ interface GuestDAO {
     fun getByGuestStatus(guestStatus: String): List<Guest>
 
     @Query("SELECT * FROM Guest WHERE ${DatabaseConstants.GUEST.COLUMNS.ID} = (:id)")
-    fun findById(id: Int): Guest
+    fun getById(id: Int): Guest
+
     @Insert
-    fun insert(guest: Guest)
+    fun insert(guest: Guest): Long
 
     @Update
-    fun update(guest: Guest)
+    fun update(guest: Guest): Int
 
     @Delete
-    fun delete(guest: Guest)
+    fun delete(guest: Guest): Int
 }

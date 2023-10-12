@@ -8,24 +8,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.helder.section_31_guests.R
 import com.helder.section_31_guests.constants.GuestConstants
 import com.helder.section_31_guests.data.model.Guest
-import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.GuestsFragmentsLayoutBinding
-import com.helder.section_31_guests.service.ShowToastService
+import com.helder.section_31_guests.service.ShowActionMessageService
 import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.adapters.GuestsAdapter
 import com.helder.section_31_guests.ui.listener.OnGuestListener
 import com.helder.section_31_guests.ui.viewmodel.GuestsViewModel
 
-open class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment() {
     private var _binding: GuestsFragmentsLayoutBinding? = null
     private val binding get() = _binding!!
     private var adapter = GuestsAdapter()
-    private lateinit var viewModel: GuestsViewModel
-    private val showToastService = ShowToastService.getInstance()
-    protected var statusFilter: GuestStatus? = null
+    private val showActionMessageService = ShowActionMessageService.getInstance()
+    protected lateinit var viewModel: GuestsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,16 +30,15 @@ open class BaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = GuestsFragmentsLayoutBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(requireActivity())[GuestsViewModel::class.java]
+        getGuests()
 
         with(binding) {
             recyclerViewAllGuests.layoutManager = LinearLayoutManager(requireContext())
             recyclerViewAllGuests.adapter = adapter
 
-            viewModel = ViewModelProvider(requireActivity())[GuestsViewModel::class.java]
-
             attachListenerToAdapter()
 
-            viewModel.getAll(statusFilter)
             observe()
 
             floatingButtonAddGuest.setOnClickListener {
@@ -55,7 +51,7 @@ open class BaseFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getAll(statusFilter)
+        getGuests()
     }
 
     override fun onDestroyView() {
@@ -75,13 +71,13 @@ open class BaseFragment : Fragment() {
 
             override fun onDelete(guest: Guest) {
                 try {
-                    viewModel.deleteGuest(guest)
-                    showToastService.showToast(requireContext(), getString(R.string.successful_delete_action))
+                    val deletedRows = viewModel.deleteGuest(guest)
+                    showActionMessageService.showDeleteMessage(requireContext(), deletedRows)
                 } catch(e: Exception) {
-                    showToastService.showToast(requireContext(), getString(R.string.failed_delete_action))
+                    showActionMessageService.showExceptionMessage(requireContext(), e.toString())
                 }
 
-                viewModel.getAll(statusFilter)
+                getGuests()
             }
         })
     }
@@ -93,4 +89,6 @@ open class BaseFragment : Fragment() {
             adapter.updateGuests(it)
         }
     }
+
+    abstract fun getGuests()
 }

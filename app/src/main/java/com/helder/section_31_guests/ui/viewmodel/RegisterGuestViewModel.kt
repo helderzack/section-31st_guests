@@ -4,11 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.helder.section_31_guests.data.database.GuestLocalRepository
+import com.helder.section_31_guests.data.database.GuestRepository
 import com.helder.section_31_guests.data.model.Guest
 
 class RegisterGuestViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = GuestLocalRepository.getInstance(application)
+    private val repository = GuestRepository(application.applicationContext)
     private var _guest = MutableLiveData<Guest>()
     val guest: LiveData<Guest> get() = _guest
 

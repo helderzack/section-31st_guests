@@ -8,14 +8,14 @@ import com.helder.section_31_guests.constants.GuestConstants
 import com.helder.section_31_guests.data.model.Guest
 import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.ActivityRegisterGuestBinding
-import com.helder.section_31_guests.service.ShowToastService
+import com.helder.section_31_guests.service.ShowActionMessageService
 import com.helder.section_31_guests.ui.viewmodel.RegisterGuestViewModel
 
 class RegisterGuestActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterGuestBinding
     private lateinit var viewModel: RegisterGuestViewModel
     private var guestId = 0
-    private val showToastService = ShowToastService.getInstance()
+    private val showActionMessageService = ShowActionMessageService.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,6 @@ class RegisterGuestActivity : AppCompatActivity() {
             loadData()
 
             radioButtonStatusPresent.isChecked = true
-
         }
     }
 
@@ -76,7 +75,7 @@ class RegisterGuestActivity : AppCompatActivity() {
         val guestName = binding.editGuestName.text.toString()
 
         if (guestName.isBlank() || guestName.isEmpty()) {
-            showToastService.showToast(this, getString(R.string.blank_guest_name_alert))
+            showActionMessageService.showBlankGuestNameAlertMessage(this)
             return
         }
 
@@ -90,20 +89,17 @@ class RegisterGuestActivity : AppCompatActivity() {
 
         if (guestId == 0) {
             try {
-                viewModel.save(Guest(guestId, guestName, guestStatus))
-                showToastService.showToast(this, getString(R.string.successful_saved_guest_action))
+                val insertReturn = viewModel.save(Guest(guestId, guestName, guestStatus))
+                showActionMessageService.showInsertMessage(this, insertReturn.toInt())
             } catch (e: Exception) {
-                showToastService.showToast(this, getString(R.string.failed_saved_guest_action))
+                showActionMessageService.showExceptionMessage(this, e.toString())
             }
         } else {
             try {
-                viewModel.update(Guest(guestId, guestName, guestStatus))
-                showToastService.showToast(this, getString(R.string.successful_update_action))
+                val updatedRows = viewModel.update(Guest(guestId, guestName, guestStatus))
+                showActionMessageService.showUpdateMessage(this, updatedRows)
             } catch (e: Exception) {
-                showToastService.showToast(
-                    this,
-                    getString(R.string.failed_update_action)
-                )
+                showActionMessageService.showExceptionMessage(this, e.toString())
             }
         }
 

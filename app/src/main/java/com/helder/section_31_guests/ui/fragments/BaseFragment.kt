@@ -21,7 +21,7 @@ abstract class BaseFragment : Fragment() {
     private var _binding: GuestsFragmentsLayoutBinding? = null
     private val binding get() = _binding!!
     private var adapter = GuestsAdapter()
-    private val showActionMessageService = ShowActionMessageService.getInstance()
+    protected val showActionMessageService = ShowActionMessageService.getInstance()
     protected lateinit var viewModel: GuestsViewModel
 
     override fun onCreateView(

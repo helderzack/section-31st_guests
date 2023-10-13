@@ -52,7 +52,11 @@ class RegisterGuestActivity : AppCompatActivity() {
 
         if (bundle != null) {
             guestId = bundle.getInt(GuestConstants.GUEST.ID)
-            viewModel.getById(guestId)
+            try {
+                viewModel.getById(guestId)
+            } catch (e: Exception) {
+                showActionMessageService.showExceptionMessage(this, e.toString())
+            }
         }
     }
 

@@ -20,7 +20,7 @@ abstract class GuestsDatabase : RoomDatabase() {
                         context,
                         GuestsDatabase::class.java,
                         DatabaseConstants.DATABASE_NAME
-                    ).allowMainThreadQueries().build()
+                    ).build()
                 }
             }
             return database

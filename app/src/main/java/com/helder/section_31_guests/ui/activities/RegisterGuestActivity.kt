@@ -2,7 +2,10 @@ package com.helder.section_31_guests.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.helder.section_31_guests.R
 import com.helder.section_31_guests.constants.GuestConstants
 import com.helder.section_31_guests.data.model.Guest
@@ -10,6 +13,7 @@ import com.helder.section_31_guests.data.model.GuestStatus
 import com.helder.section_31_guests.databinding.ActivityRegisterGuestBinding
 import com.helder.section_31_guests.service.ShowActionMessageService
 import com.helder.section_31_guests.ui.viewmodel.RegisterGuestViewModel
+import kotlinx.coroutines.launch
 
 class RegisterGuestActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterGuestBinding
@@ -61,15 +65,19 @@ class RegisterGuestActivity : AppCompatActivity() {
     }
 
     private fun observe() {
-        viewModel.guest.observe(this) {
-            binding.editGuestName.setText(it.name)
-            when (it.guestStatus) {
-                GuestStatus.Present -> {
-                    binding.radioButtonStatusPresent.isChecked = true
-                }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.guest.collect {
+                    binding.editGuestName.setText(it.name)
+                    when (it.guestStatus) {
+                        GuestStatus.Present -> {
+                            binding.radioButtonStatusPresent.isChecked = true
+                        }
 
-                GuestStatus.Absent -> {
-                    binding.radioButtonStatusAbsent.isChecked = true
+                        GuestStatus.Absent -> {
+                            binding.radioButtonStatusAbsent.isChecked = true
+                        }
+                    }
                 }
             }
         }
@@ -93,15 +101,25 @@ class RegisterGuestActivity : AppCompatActivity() {
 
         if (guestId == 0) {
             try {
-                val insertReturn = viewModel.save(Guest(guestId, guestName, guestStatus))
-                showActionMessageService.showInsertMessage(this, insertReturn.toInt())
+                lifecycleScope.launch {
+                    viewModel.save(Guest(guestId, guestName, guestStatus))
+                    showActionMessageService.showInsertMessage(
+                        this@RegisterGuestActivity,
+                        viewModel.channel.receive()
+                    )
+                }
             } catch (e: Exception) {
                 showActionMessageService.showExceptionMessage(this, e.toString())
             }
         } else {
             try {
-                val updatedRows = viewModel.update(Guest(guestId, guestName, guestStatus))
-                showActionMessageService.showUpdateMessage(this, updatedRows)
+                lifecycleScope.launch {
+                    viewModel.update(Guest(guestId, guestName, guestStatus))
+                    showActionMessageService.showUpdateMessage(
+                        this@RegisterGuestActivity,
+                        viewModel.channel.receive()
+                    )
+                }
             } catch (e: Exception) {
                 showActionMessageService.showExceptionMessage(this, e.toString())
             }

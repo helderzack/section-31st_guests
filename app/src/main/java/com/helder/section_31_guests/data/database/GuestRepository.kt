@@ -3,23 +3,24 @@ package com.helder.section_31_guests.data.database
 import android.content.Context
 import com.helder.section_31_guests.data.model.Guest
 import com.helder.section_31_guests.data.model.GuestStatus
+import kotlinx.coroutines.flow.Flow
 
 class GuestRepository(context: Context) {
     private val db = GuestsDatabase.getDatabase(context).guestDao()
 
-    fun getAll(): List<Guest> {
+    fun getAll(): Flow<List<Guest>> {
         return db.getAll()
     }
 
-    fun getById(id: Int): Guest {
+    fun getById(id: Int): Flow<Guest> {
         return db.getById(id)
     }
 
-    fun getPresent(): List<Guest> {
+    fun getPresent(): Flow<List<Guest>> {
         return db.getByGuestStatus(GuestStatus.Present.toString())
     }
 
-    fun getAbsent(): List<Guest> {
+    fun getAbsent(): Flow<List<Guest>> {
         return db.getByGuestStatus(GuestStatus.Absent.toString())
     }
 

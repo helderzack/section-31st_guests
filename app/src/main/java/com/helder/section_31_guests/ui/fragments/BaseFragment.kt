@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.helder.section_31_guests.constants.GuestConstants
 import com.helder.section_31_guests.data.model.Guest
@@ -16,6 +19,7 @@ import com.helder.section_31_guests.ui.activities.RegisterGuestActivity
 import com.helder.section_31_guests.ui.adapters.GuestsAdapter
 import com.helder.section_31_guests.ui.listener.OnGuestListener
 import com.helder.section_31_guests.ui.viewmodel.GuestsViewModel
+import kotlinx.coroutines.launch
 
 abstract class BaseFragment : Fragment() {
     private var _binding: GuestsFragmentsLayoutBinding? = null
@@ -71,9 +75,14 @@ abstract class BaseFragment : Fragment() {
 
             override fun onDelete(guest: Guest) {
                 try {
-                    val deletedRows = viewModel.deleteGuest(guest)
-                    showActionMessageService.showDeleteMessage(requireContext(), deletedRows)
-                } catch(e: Exception) {
+                    lifecycleScope.launch {
+                        viewModel.deleteGuest(guest)
+                        showActionMessageService.showDeleteMessage(
+                            requireContext(),
+                            viewModel.channel.receive()
+                        )
+                    }
+                } catch (e: Exception) {
                     showActionMessageService.showExceptionMessage(requireContext(), e.toString())
                 }
 
@@ -83,10 +92,14 @@ abstract class BaseFragment : Fragment() {
     }
 
     private fun observe() {
-        viewModel.allGuests.observe(viewLifecycleOwner) {
-            binding.textEmptyGuestsList.visibility =
-                if (it.isEmpty()) View.VISIBLE else View.INVISIBLE
-            adapter.updateGuests(it)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.allGuests.collect {
+                    binding.textEmptyGuestsList.visibility =
+                        if (it.isEmpty()) View.VISIBLE else View.INVISIBLE
+                    adapter.updateGuests(it)
+                }
+            }
         }
     }
 

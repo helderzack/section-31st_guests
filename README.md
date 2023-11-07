@@ -16,6 +16,7 @@ to GitHub.
 - [Design Preview](#design-preview)
     - [Light Theme](#light-theme)
     - [Dark Theme](#dark-theme)
+- [Valuable-Resources](#valuable-resources)
 - [Link to previous lesson from the course](#link-to-previous-lesson-from-the-course)
 
 ## Overview
@@ -95,7 +96,9 @@ Some of the things I have learned to do while coding this app were:
 ## Valuable Resources
 
 Coroutines official documentation: https://kotlinlang.org/docs/coroutines-overview.html
+
 Save data in a local database using Room: https://developer.android.com/training/data-storage/room
+
 The Ultimate Guide to Kotlin Flows: https://www.youtube.com/playlist?list=PLQkwcJG4YTCQHCppNAQmLsj_jW38rU9sC
 
 ## Link to previous lesson from the course

@@ -38,7 +38,9 @@ Users should be able to:
 
 Some of the things I have learned to do while coding this app were:
 - Utilize a view model to manipulate data which will be shown in fragment
-- Use a SQLite database
+- Use a SQLite database  using SQLite Helper
+- Use a SQLite database using Room
+- Use coroutines and flows to be able to execute database operations
 - Build a Navigation Drawer from scratch
 - Pass data from an adapter to an activity
 - Use radio buttons, and receive their values in an activity
@@ -89,6 +91,12 @@ Some of the things I have learned to do while coding this app were:
 <p align="center">
 	<small><em>Register Guest Activity - Dark Theme</em></small>
 </p>
+
+## Valuable Resources
+
+Coroutines official documentation: https://kotlinlang.org/docs/coroutines-overview.html
+Save data in a local database using Room: https://developer.android.com/training/data-storage/room
+The Ultimate Guide to Kotlin Flows: https://www.youtube.com/playlist?list=PLQkwcJG4YTCQHCppNAQmLsj_jW38rU9sC
 
 ## Link to previous lesson from the course
 

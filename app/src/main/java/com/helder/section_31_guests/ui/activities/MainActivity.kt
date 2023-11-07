@@ -14,9 +14,6 @@ import androidx.navigation.ui.navigateUp
 import com.google.android.material.navigation.NavigationView
 import com.helder.section_31_guests.R
 import com.helder.section_31_guests.databinding.ActivityMainBinding
-import com.helder.section_31_guests.ui.fragments.AbsentGuestsFragment
-import com.helder.section_31_guests.ui.fragments.AllGuestsFragment
-import com.helder.section_31_guests.ui.fragments.PresentGuestsFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityMainBinding
@@ -74,27 +71,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_all_guests -> {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container_view, AllGuestsFragment())
-                    .addToBackStack(null)
-                    .commit()
+               navController.navigate(R.id.all_guests_fragment)
             }
 
             R.id.action_present_guests -> {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container_view, PresentGuestsFragment())
-                    .addToBackStack(null)
-                    .commit()
+                navController.navigate(R.id.present_guests_fragment)
+
             }
 
             R.id.action_absent_guests -> {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container_view, AbsentGuestsFragment())
-                    .addToBackStack(null)
-                    .commit()
+                navController.navigate(R.id.absent_guests_fragment)
             }
         }
 

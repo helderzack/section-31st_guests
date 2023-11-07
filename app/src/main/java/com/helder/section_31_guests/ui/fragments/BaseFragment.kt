@@ -81,6 +81,7 @@ abstract class BaseFragment : Fragment() {
                             requireContext(),
                             viewModel.channel.receive()
                         )
+                        viewModel.channel.close()
                     }
                 } catch (e: Exception) {
                     showActionMessageService.showExceptionMessage(requireContext(), e.toString())

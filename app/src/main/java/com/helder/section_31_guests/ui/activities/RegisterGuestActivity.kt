@@ -107,6 +107,7 @@ class RegisterGuestActivity : AppCompatActivity() {
                         this@RegisterGuestActivity,
                         viewModel.channel.receive()
                     )
+                    viewModel.channel.close()
                 }
             } catch (e: Exception) {
                 showActionMessageService.showExceptionMessage(this, e.toString())
@@ -119,6 +120,7 @@ class RegisterGuestActivity : AppCompatActivity() {
                         this@RegisterGuestActivity,
                         viewModel.channel.receive()
                     )
+                    viewModel.channel.close()
                 }
             } catch (e: Exception) {
                 showActionMessageService.showExceptionMessage(this, e.toString())

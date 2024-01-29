@@ -13,6 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:focusable="true"
         android:paddingHorizontal="8dp"
         android:textColor="?attr/colorOnPrimary"
         android:textSize="24sp"
